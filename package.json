@@ -1,0 +1,23 @@
+{
+  "name": "calconv-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rikyuusima/calconv-server.git"
+  },
+  "author": "RS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rikyuusima/calconv-server/issues"
+  },
+  "devDependencies": {
+    "async": "^2.3.0",
+    "express": "^4.15.2",
+    "nodegit": "^0.18.0"
+  }
+}
