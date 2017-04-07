@@ -1,20 +1,30 @@
-// require
+// npm require
 const fs = require('fs')
 const Git = require('nodegit')
 const async = require('async')
+const schedule = require('node-schedule')
 const express = require('express')
 const app = express()
+
+// module require
+const crawl = require('./calconv-crawl')
 
 // global const
 const calconv_repo = 'https://github.com/rikyuusima/calconv.git'
 const port = 3000
+const conv_name = 'nit-tsuyama'
+const year = 2017
 
 async.waterfall([
   (callback) => {
     // calconvのクローン
-    if(! fs.statSync('calconv').isDirectory()){
+    if(! isDirectory('calconv')){
       Git.Clone(calconv_repo, 'calconv')
     }
+    callback(null)
+  },
+  (callback) => {
+    crawl.crawl(conv_name, year)
     callback(null)
   },
   (callback) => {
@@ -27,15 +37,28 @@ async.waterfall([
 
 // CSVをレスポンス
 app.get('/nit-tsuyama/csv/', (req, res) => {
-  res.sendFile(__dirname + '/calconv/nit-tsuyama/schedule.csv')
+  res.sendFile(__dirname + '/schedule.csv')
 })
 
 // iCalをレスポンス
 app.get('/nit-tsuyama/ical/', (req, res) => {
-  res.sendFile(__dirname + '/calconv/nit-tsuyama/schedule.ics')
+  res.sendFile(__dirname + '/schedule.ics')
 })
 
-// XMLをレスポンス
-app.get('/nit-tsuyama/XML/', (req, res) => {
-  res.sendFile(__dirname + '/calconv/nit-tsuyama/schedule.xml')
+// 定期クロール
+var job = schedule.scheduleJob({
+  date: 1
+}, () => {
+  crawl.crawl(conv_name, year)
 })
+
+// @pathに一致するディレクトリの存在確認
+function isDirectory(path){
+  try{
+    fs.statSync(path)
+    return true
+  }
+  catch(e){
+    return false
+  }
+}
