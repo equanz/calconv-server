@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/rikyuusima/calconv-server/issues"
   },
-  "devDependencies": {
+  "Dependencies": {
     "async": "^2.3.0",
     "express": "^4.15.2",
     "node-schedule": "^1.2.1",
