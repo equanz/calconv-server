@@ -20,7 +20,14 @@ async.waterfall([
     // calconvのクローン
     if(! isDirectory('calconv')){
       exec('git clone ' + calconv_repo, (err, stdout, stderr) => {
-        callback(null)
+        if(err || stderr){
+          console.error(err)
+          console.error(stderr)
+        }
+        else{
+          console.info('cloned!')
+          callback(null)
+        }
       })
     }
   },
@@ -31,6 +38,7 @@ async.waterfall([
   (callback) => {
     // expressのlisten
     app.listen(port)
+    console.info(port + " open!")
 
     callback(null)
   }
