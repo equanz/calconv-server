@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rikyuusima/calconv-server.git"
+    "url": "https://github.com/rikyuusima/calconv-server.git"
   },
-  "author": "RS",
+  "author": "rikyuusima",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rikyuusima/calconv-server/issues"
