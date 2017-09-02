@@ -37,9 +37,9 @@ async.waterfall([
   },
   (callback) => {
     // expressのlisten
-    app.listen(port)
-    console.info(port + " open!")
-
+    app.listen(app.get('port'), () => {
+      console.info(port + " open!")
+    })
     callback(null)
   }
 ])
