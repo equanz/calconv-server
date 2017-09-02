@@ -15,7 +15,7 @@ const year = 2017
 // crawl and save to file
 crawl.crawl(conv_name, year)
 
-app.listen(app.get('port'), () => {
+app.listen(port, () => {
   console.info(port + " open!")
 })
 
