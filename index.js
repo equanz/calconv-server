@@ -1,7 +1,4 @@
 // npm require
-const fs = require('fs')
-const async = require('async')
-const {exec} = require('child_process')
 const schedule = require('node-schedule')
 const express = require('express')
 const app = express()
@@ -15,59 +12,27 @@ const port = process.env.PORT || 3000
 const conv_name = 'nit-tsuyama'
 const year = 2017
 
-async.waterfall([
-  (callback) => {
-    // calconvのクローン
-    if(! isDirectory('calconv')){
-      exec('git clone ' + calconv_repo, (err, stdout, stderr) => {
-        if(err || stderr){
-          console.error(err)
-          console.error(stderr)
-        }
-        else{
-          console.info('cloned!')
-          callback(null)
-        }
-      })
-    }
-  },
-  (callback) => {
-    crawl.crawl(conv_name, year)
-    callback(null)
-  },
-  (callback) => {
-    // expressのlisten
-    app.listen(app.get('port'), () => {
-      console.info(port + " open!")
-    })
-    callback(null)
-  }
-])
+// crawl and save to file
+crawl.crawl(conv_name, year)
 
-// CSVをレスポンス
+app.listen(app.get('port'), () => {
+  console.info(port + " open!")
+})
+
+// response CSV
 app.get('/nit-tsuyama/csv/', (req, res) => {
   res.sendFile(__dirname + '/schedule.csv')
 })
 
-// iCalをレスポンス
+// response iCal
 app.get('/nit-tsuyama/ical/', (req, res) => {
   res.sendFile(__dirname + '/schedule.ics')
 })
 
-// 定期クロール
+// crawl batch
 var job = schedule.scheduleJob({
   date: 1
 }, () => {
   crawl.crawl(conv_name, year)
 })
 
-// @pathに一致するディレクトリの存在確認
-function isDirectory(path){
-  try{
-    fs.statSync(path)
-    return true
-  }
-  catch(e){
-    return false
-  }
-}
