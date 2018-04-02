@@ -10,7 +10,7 @@ const crawl = require('./calconv-crawl')
 const calconv_repo = 'https://github.com/rikyuusima/calconv.git'
 const port = process.env.PORT || 3000
 const conv_name = 'nit-tsuyama'
-const year = 2017
+const year = 2018
 
 // crawl and save to file
 crawl.crawl(conv_name, year)
